@@ -20,11 +20,11 @@
 @property (nonatomic ,strong) NSString * highlightContent;/**< 高亮内容 */
 //配置默认属性
 @property (nonatomic ,assign) CGFloat contenFont;/**< 文字大小 */
-@property (nonatomic ,assign) CGFloat maxLayoutWidth;/**< 最大宽度 */
 @property (nonatomic ,strong) UIColor * contentNormalColor;/**< 默认颜色 */
 @property (nonatomic ,strong) UIColor * contentHighlightColor;/**< 高亮颜色 */
 
-@property (nonatomic ,strong) UIView * kSuperView;
+//helper
+@property (nonatomic ,weak) UIView * kSuperView;
 
 @end
 
@@ -47,18 +47,23 @@
 }
 
 - (void)updateWithTopY:(CGFloat)topY{
-    [self.clickBackBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_top).offset(topY);
-        make.centerX.equalTo(@0);
-        make.top.equalTo(self.emptyImage.mas_top);
-        make.bottom.equalTo(self.emptyLabel.mas_bottom);
-        make.width.mas_equalTo(self.maxLayoutWidth);
+    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.kSuperView.mas_top).offset(topY);
+        make.bottom.equalTo(self.clickBackBtn.mas_bottom);
+        make.top.equalTo(self.clickBackBtn.mas_top);
+        make.centerX.equalTo(self.kSuperView);
+        make.width.equalTo(self.kSuperView);
+    }];
+}
+
+- (void)updateWithCenterYOffset:(CGFloat)centYOffset{
+    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.kSuperView.mas_centerY).offset(centYOffset);
     }];
 }
 
 - (void)configNormal{
     self.contenFont = 15;
-    self.maxLayoutWidth = 100;
     self.contentNormalColor = [UIColor lightGrayColor];
     self.contentHighlightColor = [UIColor colorWithRed:42/255.0 green:187/255.0 blue:178/255.0 alpha:1.0];
     
@@ -152,6 +157,10 @@
         _emptyLabel.numberOfLines = 0;
     }
     return _emptyLabel;
+}
+
+- (void)dealloc{
+    NSLog(@"dealloc 0-0 ----> %@",self);
 }
 
 @end

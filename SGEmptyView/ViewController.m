@@ -10,6 +10,7 @@
 #import "NextViewController.h"
 
 #import "SGEmptyView.h"
+#import "Masonry.h"
 
 @interface ViewController ()
 @property (nonatomic ,weak) SGEmptyView * emptyView;
@@ -31,19 +32,29 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self emptyView];
+    
+    if (arc4random()%2 == 0) {
+        [self.emptyView updateWithTopY:10];
+    }else{
+        [self.emptyView updateWithCenterYOffset:100];
+    }
+    self.emptyView.backgroundColor = [UIColor redColor];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    
+    [super viewDidLoad];    
 }
 
 - (void)goNext{
     NextViewController * next = [[NextViewController alloc]init];
-    [self presentViewController:next animated:YES completion:^{
-        [self.emptyView removeFromSuperview];
-    }];
+    [self presentViewController:next animated:YES completion:nil];
+    [self.emptyView removeFromSuperview];
+
 }
 
 - (void)didReceiveMemoryWarning {

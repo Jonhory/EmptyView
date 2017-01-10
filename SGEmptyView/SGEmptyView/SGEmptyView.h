@@ -44,4 +44,11 @@
  */
 - (void)updateWithTopY:(CGFloat)topY;
 
+/**
+ 如有需求，修改整体按钮centerY,向下偏移为正值
+ 
+ @param centYOffset 偏移量
+ */
+- (void)updateWithCenterYOffset:(CGFloat)centYOffset;
+
 @end
